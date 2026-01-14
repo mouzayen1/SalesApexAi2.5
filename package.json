@@ -30,9 +30,7 @@
   },
   "dependencies": {
     "@vercel/node": "^5.5.20",
-    "drizzle-orm": "^0.45.1",
     "groq-sdk": "^0.37.0",
-    "postgres": "^3.4.8",
     "zod": "^3.25.76"
   }
 }
