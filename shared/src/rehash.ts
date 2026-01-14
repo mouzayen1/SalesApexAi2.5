@@ -493,8 +493,7 @@ function evaluateWestlake(
     term,
     apr: apr.aprDecimal,
     aprPercent: apr.aprPercent,
-    amountFinanced: financials.amountFinanced,
-    monthlyPayment,
+l    monthlyPayment,
     bookValue,
     ltv: roundToCents(ltv),
     ltvCap: program.ltvCap * 100,
@@ -622,7 +621,7 @@ function evaluateWestern(
     term,
     apr: apr.aprDecimal,
     aprPercent: apr.aprPercent,
-    amountFinanced: financials.amountFinanced,
+
     monthlyPayment,
     bookValue,
     ltv: roundToCents(ltv),
@@ -775,7 +774,7 @@ function evaluateUAC(
     term,
     apr: apr.aprDecimal,
     aprPercent: apr.aprPercent,
-    amountFinanced: financials.amountFinanced,
+
     monthlyPayment,
     bookValue,
     ltv: roundToCents(ltv),
@@ -830,7 +829,7 @@ function createDeclinedCandidate(
     term: 0,
     apr: 0,
     aprPercent: 0,
-    amountFinanced: financials.amountFinanced,
+
     monthlyPayment: 0,
     bookValue,
     ltv: 0,
