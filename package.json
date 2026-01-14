@@ -12,7 +12,7 @@
     "dev:client": "npm run dev --workspace=client",
     "dev:server": "npm run dev --workspace=server",
     "build": "npm run build --workspace=shared && npm run build --workspace=server && npm run build --workspace=client",
-    "build:client": "npm run build --workspace=client",
+    "build:client": "npm run build --workspace=shared && npm run build --workspace=client",
     "build:server": "npm run build --workspace=server",
     "start": "npm run start --workspace=server",
     "test": "npm run test --workspace=shared && npm run test --workspace=server",
@@ -27,5 +27,12 @@
     "concurrently": "^8.2.2",
     "eslint": "^8.55.0",
     "typescript": "^5.3.2"
+  },
+  "dependencies": {
+    "@vercel/node": "^5.5.20",
+    "drizzle-orm": "^0.45.1",
+    "groq-sdk": "^0.37.0",
+    "postgres": "^3.4.8",
+    "zod": "^3.25.76"
   }
 }
