@@ -1,0 +1,42 @@
+{
+  "name": "@salesapexai/shared",
+  "version": "1.0.0",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./types": {
+      "import": "./dist/types.js",
+      "require": "./dist/types.js",
+      "types": "./dist/types.d.ts"
+    },
+    "./lenders": {
+      "import": "./dist/lenders.js",
+      "require": "./dist/lenders.js",
+      "types": "./dist/lenders.d.ts"
+    },
+    "./rehash": {
+      "import": "./dist/rehash.js",
+      "require": "./dist/rehash.js",
+      "types": "./dist/rehash.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "typescript": "^5.3.2",
+    "vitest": "^1.0.4"
+  },
+  "dependencies": {
+    "zod": "^3.22.4"
+  }
+}
