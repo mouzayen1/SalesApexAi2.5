@@ -1,0 +1,23 @@
+CREATE TABLE IF NOT EXISTS "vehicles" (
+	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
+	"year" integer NOT NULL,
+	"make" text NOT NULL,
+	"model" text NOT NULL,
+	"trim" text,
+	"price" real NOT NULL,
+	"mileage" integer NOT NULL,
+	"body_style" text NOT NULL,
+	"seats" integer,
+	"color" text NOT NULL,
+	"fuel_type" text NOT NULL,
+	"transmission" text NOT NULL,
+	"drivetrain" text NOT NULL,
+	"mpg_city" integer,
+	"mpg_highway" integer,
+	"features" json DEFAULT '[]'::json,
+	"description" text,
+	"image_url" text,
+	"is_available" boolean DEFAULT true,
+	"created_at" timestamp DEFAULT now(),
+	"updated_at" timestamp DEFAULT now()
+);
