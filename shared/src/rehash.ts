@@ -493,7 +493,7 @@ function evaluateWestlake(
     term,
     apr: apr.aprDecimal,
     aprPercent: apr.aprPercent,
-l    monthlyPayment,
+    monthlyPayment,
     bookValue,
     ltv: roundToCents(ltv),
     ltvCap: program.ltvCap * 100,
