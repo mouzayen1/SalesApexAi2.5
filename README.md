@@ -193,3 +193,7 @@ npm start
 ## License
 
 MIT
+
+---
+
+*Deployed on Vercel*
