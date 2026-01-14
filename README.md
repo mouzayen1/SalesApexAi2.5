@@ -57,17 +57,10 @@ npm install
 2. **Configure environment**
 
 ```bash
-cp .env.example .env
+cp .env.example .env.local
 ```
 
-Edit `.env` with your configuration:
-
-```env
-DATABASE_URL=postgresql://user:password@localhost:5432/salesapexai
-GROQ_API_KEY=your_groq_api_key_here
-GROQ_MODEL=llama-3.1-70b-versatile
-PORT=3001
-```
+Edit `.env.local` with your configuration (see Environment Variables section below).
 
 3. **Set up database**
 
@@ -173,15 +166,64 @@ Tests include:
   - Approval/decline accuracy
   - Net check within ±2%
 
+## Environment Variables
+
+### Required Variables
+
+| Variable | Description | Required |
+|----------|-------------|----------|
+| `DATABASE_URL` | PostgreSQL connection string | Yes |
+| `GROQ_API_KEY` | Groq API key for AI deal analysis | No (mock response if missing) |
+| `GROQ_MODEL` | Groq model ID (default: `llama-3.1-70b-versatile`) | No |
+
+### Local Development
+
+1. Copy the example file:
+   ```bash
+   cp .env.example .env.local
+   ```
+
+2. Edit `.env.local` with your values:
+   ```env
+   DATABASE_URL=postgresql://user:password@localhost:5432/salesapexai
+   GROQ_API_KEY=your_groq_api_key_here
+   ```
+
+3. **IMPORTANT**: Never commit `.env.local` or any file with real credentials. The `.gitignore` is configured to exclude these files.
+
+### Vercel Deployment
+
+1. Go to your Vercel project dashboard
+2. Navigate to **Settings** > **Environment Variables**
+3. Add the following variables:
+   - `DATABASE_URL` - Your production PostgreSQL connection string
+   - `GROQ_API_KEY` - Your Groq API key (get one at https://console.groq.com/keys)
+4. Select which environments need each variable (Production, Preview, Development)
+
+### GitHub Actions (CI/CD)
+
+If you need secrets in GitHub Actions:
+
+1. Go to your GitHub repository
+2. Navigate to **Settings** > **Secrets and variables** > **Actions**
+3. Click **New repository secret**
+4. Add `DATABASE_URL` and `GROQ_API_KEY`
+
+### Security Best Practices
+
+- **Never** commit secrets to version control
+- Use `GROQ_API_KEY` (not `NEXT_PUBLIC_GROQ_API_KEY`) to keep it server-side only
+- The API key is only accessed in Vercel Serverless Functions, never exposed to the browser
+- Rotate your API keys periodically
+
 ## Deployment
 
 ### Vercel
 
 1. Connect your repository to Vercel
-2. Configure environment variables
-3. Set build commands:
-   - Build: `npm run build`
-   - Output: `client/dist`
+2. Configure environment variables (see above)
+3. Vercel will automatically detect the configuration from `vercel.json`
+4. The app uses Vercel Serverless Functions in the `/api` directory
 
 ### Manual
 

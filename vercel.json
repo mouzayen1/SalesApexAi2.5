@@ -1,5 +1,10 @@
 {
   "buildCommand": "npm run build",
   "outputDirectory": "client/dist",
-  "installCommand": "npm install"
+  "installCommand": "npm install",
+  "framework": null,
+  "rewrites": [
+    { "source": "/api/cars/:id", "destination": "/api/cars/[id]" },
+    { "source": "/((?!api/).*)", "destination": "/index.html" }
+  ]
 }

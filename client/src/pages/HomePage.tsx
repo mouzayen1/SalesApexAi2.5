@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react';
-import { useQuery } from '@tanstack/react-query';
-import { Search, Loader2, Car, Filter, X } from 'lucide-react';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { Search, Loader2, Car, Filter, X, AlertCircle, RefreshCw } from 'lucide-react';
 import type { Filters } from '@salesapexai/shared';
 import { calculateSimplePayment } from '@salesapexai/shared';
 import { getVehicles } from '@/lib/api';
@@ -12,6 +12,7 @@ import VoiceSearchButton from '@/components/VoiceSearchButton';
 import { useVoiceSearch } from '@/hooks/useVoiceSearch';
 
 export default function HomePage() {
+  const queryClient = useQueryClient();
   const [filters, setFilters] = useState<Filters>({});
   const [searchQuery, setSearchQuery] = useState('');
   const [showFilters, setShowFilters] = useState(true);
@@ -45,9 +46,11 @@ export default function HomePage() {
     return active;
   }, [filters, searchQuery]);
 
-  const { data: vehicles = [], isLoading, error } = useQuery({
+  const { data: vehicles = [], isLoading, error, isFetching, refetch } = useQuery({
     queryKey: ['vehicles', activeFilters],
     queryFn: () => getVehicles(activeFilters),
+    retry: 2,
+    retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 10000),
   });
 
   const vehiclesWithPayments = useMemo(() => {
@@ -170,8 +173,23 @@ export default function HomePage() {
 
           {/* Error State */}
           {error && (
-            <div className="bg-red-50 border border-red-200 rounded-lg p-6 text-center">
-              <p className="text-red-600">Failed to load vehicles. Please try again.</p>
+            <div className="bg-red-50 border border-red-200 rounded-lg p-8 text-center">
+              <AlertCircle className="w-12 h-12 text-red-400 mx-auto mb-4" />
+              <h3 className="text-lg font-medium text-red-800 mb-2">Failed to load vehicles</h3>
+              <p className="text-red-600 mb-2">
+                {error instanceof Error ? error.message : 'An unexpected error occurred'}
+              </p>
+              <p className="text-sm text-red-500 mb-6">
+                Please check your connection and try again
+              </p>
+              <button
+                onClick={() => refetch()}
+                disabled={isFetching}
+                className="btn btn-primary inline-flex items-center gap-2"
+              >
+                <RefreshCw className={cn('w-4 h-4', isFetching && 'animate-spin')} />
+                {isFetching ? 'Retrying...' : 'Try Again'}
+              </button>
             </div>
           )}
 
