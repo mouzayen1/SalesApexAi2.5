@@ -7,6 +7,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
+      '@salesapexai/shared': path.resolve(__dirname, '../shared/dist'),
     },
   },
   server: {
@@ -18,8 +19,15 @@ export default defineConfig({
       },
     },
   },
+  optimizeDeps: {
+    include: ['@salesapexai/shared'],
+  },
   build: {
     outDir: 'dist',
     sourcemap: true,
+    commonjsOptions: {
+      include: [/shared/, /node_modules/],
+      transformMixedEsModules: true,
+    },
   },
 });
