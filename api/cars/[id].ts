@@ -1,6 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { db, vehicles } from '../_lib/db';
-import { eq } from 'drizzle-orm';
+import { getDb } from '../_lib/db';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   // Set CORS headers
@@ -20,45 +19,26 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const { id } = req.query;
 
     if (!id || typeof id !== 'string') {
-      return res.status(400).json({ error: 'Vehicle ID is required' });
+      return res.status(400).json({ error: 'Car ID is required' });
     }
 
-    const results = await db
-      .select()
-      .from(vehicles)
-      .where(eq(vehicles.id, id))
-      .limit(1);
+    const sql = getDb();
 
-    if (results.length === 0) {
-      return res.status(404).json({ error: 'Vehicle not found' });
+    const cars = await sql`SELECT * FROM cars WHERE id = ${id} LIMIT 1`;
+
+    if (cars.length === 0) {
+      return res.status(404).json({ error: 'Car not found' });
     }
 
-    const v = results[0];
-    const vehicle = {
-      id: v.id,
-      year: v.year,
-      make: v.make,
-      model: v.model,
-      trim: v.trim || undefined,
-      price: v.price,
-      mileage: v.mileage,
-      bodyStyle: v.bodyStyle,
-      seats: v.seats || undefined,
-      color: v.color,
-      fuelType: v.fuelType,
-      transmission: v.transmission,
-      drivetrain: v.drivetrain,
-      mpgCity: v.mpgCity || undefined,
-      mpgHighway: v.mpgHighway || undefined,
-      features: (v.features as string[]) || [],
-      description: v.description || undefined,
-      imageUrl: v.imageUrl || undefined,
-      isAvailable: v.isAvailable ?? true,
-    };
-
-    return res.status(200).json(vehicle);
+    return res.status(200).json(cars[0]);
   } catch (error) {
-    console.error('Error fetching vehicle:', error);
-    return res.status(500).json({ error: 'Failed to fetch vehicle' });
+    console.error('Error fetching car:', error);
+
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+
+    return res.status(500).json({
+      error: 'Failed to fetch car',
+      message: errorMessage
+    });
   }
 }
