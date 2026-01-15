@@ -1,7 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { getDb } from '../_lib/db';
+const { getDb } = require('../_lib/db');
 
-export default async function handler(req: VercelRequest, res: VercelResponse) {
+module.exports = async function handler(req: VercelRequest, res: VercelResponse) {
   // Set CORS headers
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
@@ -35,4 +35,4 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       stack: process.env.NODE_ENV === 'development' ? errorStack : undefined
     });
   }
-}
+};

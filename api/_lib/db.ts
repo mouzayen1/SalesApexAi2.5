@@ -1,9 +1,9 @@
-import postgres from 'postgres';
+const postgres = require('postgres');
 
 // Lazy initialization for serverless
 let sql: ReturnType<typeof postgres> | null = null;
 
-export function getDb() {
+function getDb() {
   if (!sql) {
     const connectionString = process.env.DATABASE_URL;
 
@@ -20,3 +20,5 @@ export function getDb() {
   }
   return sql;
 }
+
+module.exports = { getDb };
