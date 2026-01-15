@@ -19,10 +19,10 @@ app.get('/health', (req, res) => {  res.json({ status: 'ok', timestamp: new Date
 });
 
 // Routes
-app.use('//cars', carsRouter);
-app.use('//analyze-deal', analyzeRouter);
-app.use('//triage', triageRouter);
-app.use('//rehash', rehashRouter);
+app.use('/cars', carsRouter);
+app.use('/analyze-deal', analyzeRouter);
+app.use('/triage', triageRouter);
+app.use('/rehash', rehashRouter);
 
 // Error handling
 app.use((err: Error, req: express.Request, res: express.Response, next: express.NextFunction) => {
