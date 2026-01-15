@@ -15,15 +15,14 @@ app.use(cors());
 app.use(express.json());
 
 // Health check
-app.get('/api/health', (req, res) => {
-  res.json({ status: 'ok', timestamp: new Date().toISOString() });
+app.get('/health', (req, res) => {  res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
 // Routes
-app.use('/api/cars', carsRouter);
-app.use('/api/analyze-deal', analyzeRouter);
-app.use('/api/triage', triageRouter);
-app.use('/api/rehash', rehashRouter);
+app.use('//cars', carsRouter);
+app.use('//analyze-deal', analyzeRouter);
+app.use('//triage', triageRouter);
+app.use('//rehash', rehashRouter);
 
 // Error handling
 app.use((err: Error, req: express.Request, res: express.Response, next: express.NextFunction) => {
